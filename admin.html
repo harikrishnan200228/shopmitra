@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShopMitra admin</title>
+<style>
+:root{--bg:#fbf7ea;--ink:#1d2a1f;--line:#d9d2b8;--leaf:#1f5a3a}
+@media (prefers-color-scheme:dark){:root{--bg:#14201a;--ink:#f1ecd8;--line:#33473a;--leaf:#6fcf97}}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--ink);margin:0;padding:20px}
+h1{margin:0 0 12px}.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+a.b,select,button{font:inherit;padding:6px 12px;border:1px solid var(--ink);border-radius:6px;background:transparent;color:var(--ink);text-decoration:none;cursor:pointer}
+.wrapt{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:760px}
+th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top;font-size:14px}
+</style></head><body>
+<h1>ShopMitra leads</h1>
+<div class="bar"><select id="flt"><option value="">All</option><option value="shop">Shops</option><option value="operator">Operators</option></select>
+<a class="b" href="/api/admin/export.csv">Download CSV</a><span id="count"></span></div>
+<div class="wrapt"><table><thead><tr><th>Date</th><th>Type</th><th>Name</th><th>Phone</th><th>Area</th><th>Details</th><th>Status</th></tr></thead><tbody id="rows"></tbody></table></div>
+<script>
+let leads=[];const S=['new','contacted','trial','paying','closed'];
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+async function load(){const r=await fetch('/api/admin/leads');leads=await r.json();draw()}
+function draw(){const f=document.getElementById('flt').value;const L=leads.filter(l=>!f||l.type===f);
+document.getElementById('count').textContent=L.length+' leads';
+document.getElementById('rows').innerHTML=L.map(l=>`<tr><td>${new Date(l.createdAt).toLocaleDateString('en-IN')}</td><td>${l.type}</td>
+<td>${esc(l.name)}${l.business?'<br><small>'+esc(l.business)+' ('+esc(l.shopType)+')</small>':''}</td>
+<td><a href="https://wa.me/${l.phone.replace(/\D/g,'')}" target="_blank" rel="noopener">${esc(l.phone)}</a></td><td>${esc(l.area)}</td>
+<td>${esc(l.need||l.skills)}<br><small>${esc(l.availability||'')}</small></td>
+<td><select data-id="${l.id}">${S.map(s=>`<option${s===l.status?' selected':''}>${s}</option>`).join('')}</select></td></tr>`).join('')}
+document.addEventListener('change',async e=>{if(e.target.dataset.id){await fetch('/api/admin/leads/'+e.target.dataset.id,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:e.target.value})});load()}});
+document.getElementById('flt').onchange=draw;load();
+</script></body></html>
