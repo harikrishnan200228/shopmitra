@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShopMitra – an AI assistant for your shop</title>
+<meta name="description" content="Trained local operators run WhatsApp replies, Instagram posts and billing records for your shop using AI. Free two-week trial.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#fbf7ea;--ink:#1d2a1f;--leaf:#1f5a3a;--turmeric:#f2b01e;--card:#fffdf5;--line:#d9d2b8;--muted:#5b6556;--bg2:#f2ecd6}
+@media (prefers-color-scheme:dark){:root{--paper:#14201a;--ink:#f1ecd8;--leaf:#6fcf97;--turmeric:#f2b01e;--card:#1b2b22;--line:#33473a;--muted:#a9b5a4;--bg2:#101a15}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Anek Malayalam",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:18px;line-height:1.6}
+a{color:inherit}
+.wrap{max-width:1020px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.logo{font-weight:800;font-size:22px;text-decoration:none}
+.logo b{color:var(--leaf)}
+nav a{margin-left:18px;text-decoration:none;font-weight:600}
+.hero{padding:36px 0 56px;display:grid;grid-template-columns:1.2fr 1fr;gap:36px;align-items:center}
+h1{font-size:clamp(34px,6vw,62px);line-height:1.08;margin:0 0 16px;font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(26px,4vw,38px);line-height:1.15;margin:0 0 12px;font-weight:800}
+.lead{font-size:20px;color:var(--muted);max-width:34em}
+.btn{display:inline-block;background:var(--turmeric);color:#1d2a1f;font:inherit;font-weight:800;padding:14px 24px;border:2px solid #1d2a1f;border-radius:6px;text-decoration:none;cursor:pointer;box-shadow:4px 4px 0 #1d2a1f}
+.btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 #1d2a1f}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--ink);box-shadow:none;margin-left:8px}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--leaf);outline-offset:2px}
+.chat{background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:18px;box-shadow:6px 6px 0 var(--leaf)}
+.chat small{color:var(--muted)}
+.msg{padding:10px 14px;border-radius:12px;margin:10px 0;max-width:88%}
+.in{background:var(--bg2)}
+.out{background:var(--leaf);color:#fff;margin-left:auto}
+@media (prefers-color-scheme:dark){.out{color:#10261a}}
+section{padding:48px 0;border-top:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:22px}
+.item{border-left:5px solid var(--turmeric);padding:2px 0 2px 16px}
+.item h3{margin:0 0 4px;font-size:20px}
+.item p{margin:0;color:var(--muted)}
+.calc{background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:22px;margin-top:20px}
+.calc label{display:block;font-weight:600;margin-top:12px}
+.calc input[type=range]{width:100%;accent-color:var(--leaf)}
+.res{margin-top:16px;font-size:20px}
+.res strong{font-size:30px;color:var(--leaf)}
+.forms{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:22px}
+form{background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:22px}
+form h3{margin:0 0 6px;font-size:24px}
+label.f{display:block;font-weight:600;margin-top:12px}
+input,select,textarea{width:100%;font:inherit;padding:10px 12px;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);margin-top:4px}
+.hp{position:absolute;left:-9999px}
+.note{margin-top:12px;min-height:1.4em;font-weight:600}
+.ok{color:var(--leaf)}.bad{color:#c0392b}
+footer{padding:30px 0 50px;color:var(--muted);border-top:1px solid var(--line)}
+@media (max-width:800px){.hero,.forms{grid-template-columns:1fr}.btn.alt{margin:10px 0 0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><a class="logo" href="/">Shop<b>Mitra</b></a><nav><a href="#how">How it works</a><a href="#earn">Earn</a><a href="#join">Join</a></nav></header>
+
+<div class="hero">
+  <div>
+    <h1>Your shop gets an AI assistant. A local person runs it.</h1>
+    <p class="lead">We train people from your own area to answer your WhatsApp customers, post on Instagram and keep your records, in Malayalam and English. Try it free for two weeks.</p>
+    <p><a class="btn" href="#join">Start the free trial</a><a class="btn alt" href="#join">Become an operator</a></p>
+  </div>
+  <div class="chat" aria-label="Example WhatsApp conversation">
+    <small>Example: a bakery's WhatsApp, 9:40 pm</small>
+    <div class="msg in">Birthday cake 1kg chocolate, eppozha kittuka?</div>
+    <div class="msg out">Namaskaram! 1 kg chocolate cake Rs 850. Naale 5 pm-nu ready aakum. Name and delivery area ayakkamo?</div>
+    <div class="msg in">Pattom, Rahul</div>
+    <div class="msg out">Confirmed, Rahul. Owner has been notified for payment details.</div>
+  </div>
+</div>
+
+<section id="how">
+  <h2>What the operator does for your shop</h2>
+  <div class="grid">
+    <div class="item"><h3>Customer replies</h3><p>Prices, timings and order questions answered on WhatsApp and Instagram, even at night.</p></div>
+    <div class="item"><h3>Social media</h3><p>Weekly posts, captions and offer posters made for your products.</p></div>
+    <div class="item"><h3>Records and billing</h3><p>Simple invoices, stock lists and reminders for pending payments.</p></div>
+    <div class="item"><h3>Reviews</h3><p>Polite replies to Google reviews, so new customers see an active shop.</p></div>
+  </div>
+  <p class="lead" style="margin-top:22px">The owner stays in control: operators use fixed prices you approve, and anything unusual goes to you first.</p>
+</section>
+
+<section id="earn">
+  <h2>What operators can earn</h2>
+  <p class="lead">An operator looks after 5 to 10 shops. Adjust the numbers to see the monthly income.</p>
+  <div class="calc">
+    <label for="shops">Shops handled: <b id="shopsV">8</b></label>
+    <input id="shops" type="range" min="1" max="12" value="8">
+    <label for="fee">Monthly fee per shop: Rs <b id="feeV">3000</b></label>
+    <input id="fee" type="range" min="1500" max="6000" step="250" value="3000">
+    <div class="res">Operator earns about <strong id="earn">Rs 16,800</strong> per month <small style="color:var(--muted)">(after a 30% platform share)</small></div>
+  </div>
+</section>
+
+<section id="join">
+  <h2>Join the first batch</h2>
+  <p class="lead">We are starting with a few shops and a few operators in Kerala. Leave your details and we will call you.</p>
+  <div class="forms">
+    <form id="shopForm" data-type="shop">
+      <h3>I own a shop</h3>
+      <label class="f">Your name<input name="name" required autocomplete="name"></label>
+      <label class="f">Shop name<input name="business"></label>
+      <label class="f">Shop type
+        <select name="shopType"><option>Bakery / food</option><option>Textiles / fashion</option><option>Salon / beauty</option><option>Clinic / pharmacy</option><option>Tuition / training</option><option>Other</option></select></label>
+      <label class="f">Phone / WhatsApp<input name="phone" type="tel" required autocomplete="tel"></label>
+      <label class="f">Area / town<input name="area"></label>
+      <label class="f">What takes most of your time?<textarea name="need" rows="2"></textarea></label>
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p><button class="btn" type="submit">Request free trial</button></p>
+      <div class="note" role="status"></div>
+    </form>
+    <form id="opForm" data-type="operator">
+      <h3>I want to be an operator</h3>
+      <label class="f">Your name<input name="name" required autocomplete="name"></label>
+      <label class="f">Phone / WhatsApp<input name="phone" type="tel" required autocomplete="tel"></label>
+      <label class="f">Area / town<input name="area"></label>
+      <label class="f">Skills you have
+        <textarea name="skills" rows="3" placeholder="Smartphone use, Canva, typing Malayalam, selling, accounts..."></textarea></label>
+      <label class="f">Time available
+        <select name="availability"><option>Full time</option><option>Part time (4 hours a day)</option><option>Weekends only</option></select></label>
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p><button class="btn" type="submit">Apply for training</button></p>
+      <div class="note" role="status"></div>
+    </form>
+  </div>
+</section>
+
+<footer>ShopMitra. Operators are trained for two weeks and start with one practice shop. Questions? Reply to the call you receive after signing up.</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+function calc(){const s=+$('shops').value,f=+$('fee').value;$('shopsV').textContent=s;$('feeV').textContent=f;
+$('earn').textContent='Rs '+Math.round(s*f*0.7).toLocaleString('en-IN');}
+$('shops').oninput=$('fee').oninput=calc;calc();
+document.querySelectorAll('form').forEach(form=>{
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const note=form.querySelector('.note'),btn=form.querySelector('button');
+    const data=Object.fromEntries(new FormData(form));
+    btn.disabled=true;note.className='note';note.textContent='Sending...';
+    try{
+      const r=await fetch('/api/'+form.dataset.type,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+      const j=await r.json();
+      if(!r.ok)throw new Error(j.error||'Something went wrong');
+      note.className='note ok';note.textContent='Received. We will call you within 2 days.';form.reset();
+    }catch(err){note.className='note bad';note.textContent=err.message}
+    btn.disabled=false;
+  });
+});
+</script>
+</body>
+</html>
