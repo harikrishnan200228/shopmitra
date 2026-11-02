@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShopMitra admin</title>
+<style>
+:root{--bg:#fbf7ea;--ink:#1d2a1f;--line:#d9d2b8;--leaf:#1f5a3a}
+@media (prefers-color-scheme:dark){:root{--bg:#14201a;--ink:#f1ecd8;--line:#33473a;--leaf:#6fcf97}}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--ink);margin:0;padding:20px}
+h1{margin:0 0 12px}.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+a.b,select,button{font:inherit;padding:6px 12px;border:1px solid var(--ink);border-radius:6px;background:transparent;color:var(--ink);text-decoration:none;cursor:pointer}
+.sum{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px;font-weight:600}.sum span b{color:var(--leaf);font-size:20px}
+.wrapt{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:900px}
+th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top;font-size:14px}
+</style></head><body>
+<h1>ShopMitra leads</h1>
+<div class="sum" id="sum"></div>
+<div class="bar"><select id="flt"><option value="">All</option><option value="shop">Shops</option><option value="operator">Jobseekers</option><option value="task">Tasks</option><option value="application">Applications</option></select>
+<a class="b" href="/api/admin/export.csv">Download CSV</a><span id="count"></span></div>
+<p style="margin:0 0 12px">Shops, jobseekers and tasks show on the public page only after you tick <b>Approved</b>. Set an application to <b>completed</b> when the work is done to count the earnings.</p>
+<h2>Pods: operators matched to nearby shops</h2><div id="pods">Loading...</div><h2>All leads</h2>
+<div class="wrapt"><table><thead><tr><th>Date</th><th>Type</th><th>Name</th><th>Phone</th><th>Place</th><th>Details</th><th>Approved</th><th>Status</th></tr></thead><tbody id="rows"></tbody></table></div>
+<script>
+let leads=[];const S=['new','contacted','trial','paying','completed','closed'];
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const inr=n=>'Rs '+Number(n||0).toLocaleString('en-IN');
+function details(l){if(l.type==='task')return '<b>'+esc(l.title)+'</b> - '+inr(l.pay)+'<br><small>'+esc(l.details)+'</small>';
+if(l.type==='application')return 'Applied: <b>'+esc(l.taskTitle)+'</b> - '+inr(l.taskPay);
+if(l.type==='shop')return esc(l.business)+' ('+esc(l.shopType)+')<br><small>'+esc(l.need)+'</small>';
+return esc(l.skills)+'<br><small>'+esc(l.availability)+'</small>'}
+async function load(){leads=await (await fetch('/api/admin/leads')).json();draw();
+const s=await (await fetch('/api/admin/summary')).json();
+document.getElementById('sum').innerHTML='<span>Completed work <b>'+s.completed+'</b></span><span>Work value <b>'+inr(s.total)+'</b></span><span>Workers get <b>'+inr(s.workers)+'</b></span><span>Your 30% <b>'+inr(s.platform)+'</b></span>'}
+function draw(){const f=document.getElementById('flt').value;const L=leads.filter(l=>!f||l.type===f);
+document.getElementById('count').textContent=L.length+' records';
+document.getElementById('rows').innerHTML=L.map(l=>`<tr><td>${new Date(l.createdAt).toLocaleDateString('en-IN')}</td><td>${l.type}</td><td>${esc(l.name)}</td>
+<td><a href="https://wa.me/${l.phone.replace(/\D/g,'')}" target="_blank" rel="noopener">${esc(l.phone)}</a></td><td>${esc(l.district)}<br><small>${esc(l.area)}</small></td>
+<td>${details(l)}</td><td>${l.type==='application'?'-':`<input type="checkbox" data-ap="${l.id}"${l.approved?' checked':''}>`}</td>
+<td><select data-id="${l.id}">${S.map(s=>`<option${s===l.status?' selected':''}>${s}</option>`).join('')}</select></td></tr>`).join('')}
+const patch=(id,b)=>fetch('/api/admin/leads/'+id,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(load);
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset.id)patch(t.dataset.id,{status:t.value});if(t.dataset.ap)patch(t.dataset.ap,{approved:t.checked})});
+
+const wa=(p,t)=>{p=p.replace(/\D/g,'');if(p.length===10)p='91'+p;return 'https://wa.me/'+p+'?text='+encodeURIComponent(t)};
+async function pods(){
+  const D=await (await fetch('/api/admin/pods')).json();
+  document.getElementById('pods').innerHTML=D.length?D.map(d=>`<div style="border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:12px"><b>${esc(d.district)}</b>
+  ${d.pods.map(p=>`<p><b>Operator: ${esc(p.operator.name)}</b> (${esc(p.operator.availability)}) <a href="${wa(p.operator.phone,'Hi '+p.operator.name+', this is ShopMitra. We have '+p.shops.length+' shops near you for your trial. Can we talk?')}" target="_blank" rel="noopener">WhatsApp</a><br>
+  ${p.shops.length?p.shops.map(s=>esc(s.business||s.name)+' ('+esc(s.area)+')').join(', '):'<small>No shops matched yet</small>'}</p>`).join('')}
+  ${d.waiting.length?`<p style="color:#c0392b"><b>Waiting, no operator yet:</b> ${d.waiting.map(s=>esc(s.business||s.name)+' ('+esc(s.area)+')').join(', ')}</p>`:''}</div>`).join(''):'No leads yet.';
+}
+pods();
+document.getElementById('flt').onchange=draw;load();
+</script></body></html>
