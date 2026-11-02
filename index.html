@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShopMitra – an AI assistant for your shop</title>
+<meta name="description" content="Trained local operators run WhatsApp replies, Instagram posts and billing records for your shop using AI. Free two-week trial.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#fbf7ea;--ink:#1d2a1f;--leaf:#1f5a3a;--turmeric:#f2b01e;--card:#fffdf5;--line:#d9d2b8;--muted:#5b6556;--bg2:#f2ecd6}
+@media (prefers-color-scheme:dark){:root{--paper:#14201a;--ink:#f1ecd8;--leaf:#6fcf97;--turmeric:#f2b01e;--card:#1b2b22;--line:#33473a;--muted:#a9b5a4;--bg2:#101a15}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Anek Malayalam",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:18px;line-height:1.6}
+a{color:inherit}
+.wrap{max-width:1020px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.logo{font-weight:800;font-size:22px;text-decoration:none}
+.logo b{color:var(--leaf)}
+nav a{margin-left:18px;text-decoration:none;font-weight:600}
+.hero{padding:36px 0 56px;display:grid;grid-template-columns:1.2fr 1fr;gap:36px;align-items:center}
+h1{font-size:clamp(34px,6vw,62px);line-height:1.08;margin:0 0 16px;font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(26px,4vw,38px);line-height:1.15;margin:0 0 12px;font-weight:800}
+.lead{font-size:20px;color:var(--muted);max-width:34em}
+.btn{display:inline-block;background:var(--turmeric);color:#1d2a1f;font:inherit;font-weight:800;padding:14px 24px;border:2px solid #1d2a1f;border-radius:6px;text-decoration:none;cursor:pointer;box-shadow:4px 4px 0 #1d2a1f}
+.btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 #1d2a1f}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--ink);box-shadow:none;margin-left:8px}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--leaf);outline-offset:2px}
+.chat{background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:18px;box-shadow:6px 6px 0 var(--leaf)}
+.chat small{color:var(--muted)}
+.msg{padding:10px 14px;border-radius:12px;margin:10px 0;max-width:88%}
+.in{background:var(--bg2)}
+.out{background:var(--leaf);color:#fff;margin-left:auto}
+@media (prefers-color-scheme:dark){.out{color:#10261a}}
+section{padding:48px 0;border-top:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:22px}
+.item{border-left:5px solid var(--turmeric);padding:2px 0 2px 16px}
+.item h3{margin:0 0 4px;font-size:20px}
+.item p{margin:0;color:var(--muted)}
+.calc{background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:22px;margin-top:20px}
+.calc label{display:block;font-weight:600;margin-top:12px}
+.calc input[type=range]{width:100%;accent-color:var(--leaf)}
+.res{margin-top:16px;font-size:20px}
+.res strong{font-size:30px;color:var(--leaf)}
+.forms{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:22px}
+form{background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:22px}
+form h3{margin:0 0 6px;font-size:24px}
+label.f{display:block;font-weight:600;margin-top:12px}
+input,select,textarea{width:100%;font:inherit;padding:10px 12px;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);margin-top:4px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:12px 0 28px}.card{background:var(--card);border:2px solid var(--ink);border-radius:10px;padding:14px}.card b{display:block;font-size:19px}.card .pay{color:var(--leaf);font-weight:800;font-size:22px}.card small{color:var(--muted)}.card .btn{padding:8px 14px;margin-top:8px;box-shadow:3px 3px 0 #1d2a1f}.chk{display:flex;gap:8px;align-items:flex-start;margin-top:12px;font-size:15px}.chk input{width:auto;margin-top:6px}dialog{background:var(--card);color:var(--ink);border:2px solid var(--ink);border-radius:12px;max-width:420px;width:92%}.hp{position:absolute;left:-9999px}
+.note{margin-top:12px;min-height:1.4em;font-weight:600}
+.ok{color:var(--leaf)}.bad{color:#c0392b}
+footer{padding:30px 0 50px;color:var(--muted);border-top:1px solid var(--line)}
+@media (max-width:800px){.hero,.forms{grid-template-columns:1fr}.btn.alt{margin:10px 0 0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+.dr{display:grid;grid-template-columns:150px 1fr auto;gap:12px;align-items:center;margin:10px 0}
+.bars{display:flex;gap:3px;flex-wrap:wrap;min-height:20px}
+.bars i{width:18px;height:18px;border-radius:3px;display:inline-block}
+.bars .s{background:#c0392b}.bars .o{background:var(--leaf)}
+.dr small{color:var(--muted)}
+@media (max-width:800px){.dr{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><a class="logo" href="/">Shop<b>Mitra</b></a><nav><a href="#how">How it works</a><a href="#map">Demand</a><a href="#earn">Earn</a><a href="#nearby">Near you</a><a href="#join">Join</a></nav></header>
+
+<div class="hero">
+  <div>
+    <h1>Your shop gets an AI assistant. A local person runs it.</h1>
+    <p class="lead">We train people from your own area to answer your WhatsApp customers, post on Instagram and keep your records, in Malayalam and English. Try it free for two weeks.</p>
+    <p><a class="btn" href="#join">Start the free trial</a><a class="btn alt" href="#join">Become an operator</a></p>
+  </div>
+  <div class="chat" aria-label="Example WhatsApp conversation">
+    <small>Example: a bakery's WhatsApp, 9:40 pm</small>
+    <div class="msg in">Birthday cake 1kg chocolate, eppozha kittuka?</div>
+    <div class="msg out">Namaskaram! 1 kg chocolate cake Rs 850. Naale 5 pm-nu ready aakum. Name and delivery area ayakkamo?</div>
+    <div class="msg in">Pattom, Rahul</div>
+    <div class="msg out">Confirmed, Rahul. Owner has been notified for payment details.</div>
+  </div>
+</div>
+
+<section id="how">
+  <h2>What the operator does for your shop</h2>
+  <div class="grid">
+    <div class="item"><h3>Customer replies</h3><p>Prices, timings and order questions answered on WhatsApp and Instagram, even at night.</p></div>
+    <div class="item"><h3>Social media</h3><p>Weekly posts, captions and offer posters made for your products.</p></div>
+    <div class="item"><h3>Records and billing</h3><p>Simple invoices, stock lists and reminders for pending payments.</p></div>
+    <div class="item"><h3>Reviews</h3><p>Polite replies to Google reviews, so new customers see an active shop.</p></div>
+  </div>
+  <p class="lead" style="margin-top:22px">The owner stays in control: operators use fixed prices you approve, and anything unusual goes to you first.</p>
+</section>
+
+<section id="earn">
+  <h2>What operators can earn</h2>
+  <p class="lead">An operator looks after 5 to 10 shops. Adjust the numbers to see the monthly income.</p>
+  <div class="calc">
+    <label for="shops">Shops handled: <b id="shopsV">8</b></label>
+    <input id="shops" type="range" min="1" max="12" value="8">
+    <label for="fee">Monthly fee per shop: Rs <b id="feeV">3000</b></label>
+    <input id="fee" type="range" min="1500" max="6000" step="250" value="3000">
+    <div class="res">Operator earns about <strong id="earn">Rs 16,800</strong> per month <small style="color:var(--muted)">(after a 30% platform share)</small></div>
+  </div>
+</section>
+
+<section id="nearby">
+<h2>Work and shops near you</h2>
+<p class="lead">Choose your district or share your location to see the closest paid tasks. Phone numbers and exact locations are never shown here. Contact goes through ShopMitra.</p>
+<p><select id="nd" class="dist" aria-label="District"><option value="">All districts</option></select> <button class="btn alt" id="loc" type="button">Use my location</button></p>
+<p class="lead" id="stats"></p>
+<h3>Paid tasks you can take</h3><div id="tasks" class="cards"></div>
+<h3>Shops on ShopMitra</h3><div id="shops" class="cards"></div>
+</section>
+
+<section id="map">
+  <h2>Where help is needed right now</h2>
+  <p class="lead">Live from sign-ups. Red means shops are waiting for an operator. Green means operators are ready and need shops.</p>
+  <div id="demand" class="calc" aria-live="polite">Loading...</div>
+</section>
+
+<section id="join">
+  <h2>Join the first batch</h2>
+  <p class="lead">We are starting with a few shops and a few operators in Kerala. Leave your details and we will call you.</p>
+  <div class="forms">
+    <form id="shopForm" data-type="shop">
+      <h3>I own a shop</h3>
+      <label class="f">Your name<input name="name" required autocomplete="name"></label>
+      <label class="f">Shop name<input name="business"></label>
+      <label class="f">Shop type
+        <select name="shopType"><option>Bakery / food</option><option>Textiles / fashion</option><option>Salon / beauty</option><option>Clinic / pharmacy</option><option>Tuition / training</option><option>Other</option></select></label>
+      <label class="f">Phone / WhatsApp<input name="phone" type="tel" required autocomplete="tel"></label>
+      <label class="f">Area / town<input name="area"></label><label class="f">District<select name="district" class="dist" required></select></label>
+      <label class="f">What takes most of your time?<textarea name="need" rows="2"></textarea></label>
+      <label class="chk"><input type="checkbox" name="share" value="1"> Show me in nearby results (we save only an approximate location, about 1 km)</label>
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p><button class="btn" type="submit">Request free trial</button></p>
+      <div class="note" role="status"></div>
+    </form>
+    <form id="opForm" data-type="operator">
+      <h3>I want to be an operator</h3>
+      <label class="f">Your name<input name="name" required autocomplete="name"></label>
+      <label class="f">Phone / WhatsApp<input name="phone" type="tel" required autocomplete="tel"></label>
+      <label class="f">Area / town<input name="area"></label><label class="f">District<select name="district" class="dist" required></select></label>
+      <label class="f">Skills you have
+        <textarea name="skills" rows="3" placeholder="Smartphone use, Canva, typing Malayalam, selling, accounts..."></textarea></label>
+      <label class="f">Time available
+        <select name="availability"><option>Full time</option><option>Part time (4 hours a day)</option><option>Weekends only</option></select></label>
+      <label class="chk"><input type="checkbox" name="share" value="1"> Show me in nearby results (we save only an approximate location, about 1 km)</label>
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p><button class="btn" type="submit">Apply for training</button></p>
+      <div class="note" role="status"></div>
+    </form>
+    <form id="taskForm" data-type="task">
+      <h3>Post a paid task</h3>
+      <p style="margin:0;color:var(--muted)">For shop owners. We check each task before it goes live.</p>
+      <label class="f">Your name<input name="name" required></label>
+      <label class="f">Shop name<input name="business"></label>
+      <label class="f">Phone / WhatsApp<input name="phone" type="tel" required></label>
+      <label class="f">District<select name="district" class="dist" required></select></label>
+      <label class="f">Task (example: Make 8 Instagram posts)<input name="title" required></label>
+      <label class="f">Pay in rupees<input name="pay" type="number" min="1" max="1000000" required></label>
+      <label class="f">Details<textarea name="details" rows="2"></textarea></label>
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p><button class="btn" type="submit">Post task</button></p>
+      <div class="note" role="status"></div>
+    </form>
+  </div>
+</section>
+
+<dialog id="dlg"><form id="apf" data-type="application"><h3 id="dt">Apply</h3>
+<label class="f">Your name<input name="name" required></label>
+<label class="f">Phone / WhatsApp<input name="phone" type="tel" required></label>
+<input type="hidden" name="taskId">
+<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<p><button class="btn" type="submit">Send interest</button> <button class="btn alt" type="button" id="dc">Close</button></p>
+<div class="note" role="status"></div></form></dialog>
+
+<footer>ShopMitra. Operators are trained for two weeks and start with one practice shop. Questions? Reply to the call you receive after signing up.</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const inr=n=>'Rs '+Number(n||0).toLocaleString('en-IN');
+function calc(){const s=+$('shops').value,f=+$('fee').value;$('shopsV').textContent=s;$('feeV').textContent=f;
+$('earn').textContent='Rs '+Math.round(s*f*0.7).toLocaleString('en-IN');}
+$('shops').oninput=$('fee').oninput=calc;calc();
+let pos=null,stats=null;
+const getPos=()=>new Promise(r=>{if(!navigator.geolocation)return r(null);navigator.geolocation.getCurrentPosition(p=>r({lat:p.coords.latitude,lng:p.coords.longitude}),()=>r(null),{timeout:8000})});
+async function init(){
+  stats=await (await fetch('/api/stats')).json();
+  document.querySelectorAll('select.dist').forEach(s=>{if(!s.options.length)s.add(new Option('Select district',''));stats.districts.forEach(d=>s.add(new Option(d,d)))});
+  const js=Object.entries(stats.jobseekers).sort((a,b)=>b[1]-a[1]).map(([d,n])=>d+' ('+n+')').join(', ');
+  $('stats').textContent=(stats.openTasks?stats.openTasks+' open tasks, average pay '+inr(stats.avgPay)+'. ':'')+(js?'Jobseekers waiting by district: '+js+'.':'');
+  nearby();
+}
+async function nearby(){
+  const q=pos?'?lat='+pos.lat+'&lng='+pos.lng:'',d=$('nd').value;
+  let [t,s]=await Promise.all([fetch('/api/tasks'+q).then(r=>r.json()),fetch('/api/shops'+q).then(r=>r.json())]);
+  if(d){t=t.filter(x=>x.district===d);s=s.filter(x=>x.district===d)}
+  const dist=x=>x.distance!=null?' - '+x.distance+' km away':'';
+  $('tasks').innerHTML=t.length?t.map(x=>`<div class="card"><span class="pay">${inr(x.pay)}</span><b>${esc(x.title)}</b><small>${esc(x.business)}, ${esc(x.district)}${dist(x)}</small><p style="margin:6px 0 0">${esc(x.details)}</p><button class="btn" data-task="${esc(x.id)}" data-title="${esc(x.title)}">I'm interested</button></div>`).join(''):'<p class="lead">No tasks here yet. Shops can post one below.</p>';
+  $('shops').innerHTML=s.length?s.map(x=>`<div class="card"><b>${esc(x.business)}</b><small>${esc(x.shopType)}, ${esc(x.area||x.district)}${dist(x)}</small></div>`).join(''):'<p class="lead">No shops listed here yet.</p>';
+}
+$('nd').onchange=nearby;
+$('loc').onclick=async()=>{$('loc').textContent='Finding...';pos=await getPos();$('loc').textContent=pos?'Showing nearest first':'Location blocked, pick a district';nearby()};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-task]');if(b){$('dt').textContent='Apply: '+b.dataset.title;$('apf').taskId.value=b.dataset.task;$('apf').querySelector('.note').textContent='';$('dlg').showModal()}});
+$('dc').onclick=()=>$('dlg').close();
+document.querySelectorAll('form').forEach(form=>{
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const note=form.querySelector('.note'),btn=form.querySelector('button[type=submit]');
+    const data=Object.fromEntries(new FormData(form));
+    btn.disabled=true;note.className='note';note.textContent='Sending...';
+    try{
+      if(data.share){const p=await getPos();if(p){data.lat=p.lat;data.lng=p.lng}}
+      const r=await fetch('/api/'+form.dataset.type,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+      const j=await r.json();
+      if(!r.ok)throw new Error(j.error||'Something went wrong');
+      note.className='note ok';note.textContent=form.dataset.type==='task'?'Received. Your task goes live after we check it.':form.dataset.type==='application'?'Sent. We will connect you with the shop.':'Received. We will call you within 2 days.';
+      form.reset();
+    }catch(err){note.className='note bad';note.textContent=err.message}
+    btn.disabled=false;
+  });
+});
+init();
+
+async function demand(){
+  const box=$('demand');
+  try{
+    const rows=await (await fetch('/api/demand')).json();
+    if(!rows.length){box.textContent='No sign-ups yet. Be the first in your district.';return}
+    box.innerHTML=rows.map(r=>{
+      const gap=r.shops-r.operators;
+      const note=gap>0?'Needs '+gap+' more operator'+(gap>1?'s':''):gap<0?(-gap)+' operator'+(gap<-1?'s':'')+' ready, shops needed':'Balanced';
+      return '<div class="dr"><b>'+r.district+'</b><div class="bars" title="Red: shops. Green: operators">'+
+        '<i class="s"></i>'.repeat(Math.min(r.shops,20))+'<i class="o"></i>'.repeat(Math.min(r.operators,20))+
+        '</div><small>'+r.shops+' shops, '+r.operators+' operators. '+note+'</small></div>';
+    }).join('');
+  }catch(e){box.textContent='Could not load demand right now.'}
+}
+demand();
+document.querySelectorAll('form').forEach(f=>f.addEventListener('submit',()=>setTimeout(demand,1500)));
+</script>
+</body>
+</html>
