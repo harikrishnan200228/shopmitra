@@ -1,0 +1,99 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShopMitra – Youth career hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="page.css">
+<style>
+textarea,input,select{width:100%;font:inherit;padding:9px 11px;border:2px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);margin-top:4px}
+textarea:focus-visible,input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--leaf);outline-offset:2px}
+.row{display:grid;grid-template-columns:2fr 1fr auto;gap:8px;align-items:end;margin-top:10px}
+.chips label{display:inline-block;margin:4px 8px 4px 0;font-weight:600}
+.chips input{width:auto;margin-right:5px}
+.bad{color:#c0392b;font-weight:800}.good{color:var(--leaf);font-weight:800}
+.stats{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0}.stats div{background:var(--card);border:2px solid var(--ink);border-radius:8px;padding:6px 14px}
+.stats b{font-size:24px;display:block}
+button.btn{margin-top:8px}.del{background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:5px;cursor:pointer;padding:2px 8px;font:inherit}
+@media (max-width:640px){.row{grid-template-columns:1fr}}
+</style></head><body><div class="page">
+<div class="top noprint"><a href="/">&larr; ShopMitra</a><a class="btn" href="/#join">Apply as operator</a></div>
+<h1>Youth career hub</h1>
+<p class="sub">Tools for the problems jobseekers face today: fake offers, no experience, no replies, and no proof of work. Everything here runs in your browser. Nothing you type is sent to us.</p>
+
+<h2>1. Fake job offer checker</h2>
+<p>Paste the message or job offer you received. It looks for common scam signs.</p>
+<div class="box noprint"><textarea id="offer" rows="5" placeholder="Paste the job message here..."></textarea>
+<button class="btn" id="chk">Check for red flags</button><div id="chkOut" role="status" style="margin-top:10px"></div>
+<p class="sub">This is a quick guide, not a guarantee. A message with no red flags can still be fake, so always verify the company yourself.</p></div>
+
+<h2>2. Find your first tasks</h2>
+<p>Tick what you can already do. We suggest the ShopMitra work that fits.</p>
+<div class="box noprint"><div class="chips" id="skills"></div><div id="match" style="margin-top:8px"></div></div>
+
+<h2>3. Job search tracker</h2>
+<p>Applying without a record leads to forgotten follow-ups and lost motivation. Log each application and see your real numbers. Saved only in this browser.</p>
+<div class="box noprint">
+<div class="row"><label>Company and role<input id="tc" placeholder="e.g. ABC Traders, accounts assistant"></label>
+<label>Status<select id="ts"><option>Applied</option><option>Replied</option><option>Interview</option><option>Rejected</option><option>Offer</option></select></label>
+<button class="btn" id="ta">Add</button></div>
+<div class="stats"><div><b id="n1">0</b>applied</div><div><b id="n2">0</b>replies</div><div><b id="n3">0</b>interviews</div><div><b id="n4">0%</b>reply rate</div></div>
+<div style="overflow-x:auto"><table><thead><tr><th>Date</th><th>Company and role</th><th>Status</th><th></th></tr></thead><tbody id="tb"></tbody></table></div>
+<p class="sub">Tip: follow up politely 7 days after applying. A low reply rate usually means the resume or the target role needs changing, not that you are not good enough.</p></div>
+
+<h2>What youth face, and what we do about it</h2>
+<table>
+<tr><th>Problem</th><th>How ShopMitra helps</th></tr>
+<tr><td>"Everyone wants experience"</td><td>Running real shops gives real tasks and results you can show.</td></tr>
+<tr><td>No replies to applications</td><td>Use the tracker, follow up, and add a work record to your resume.</td></tr>
+<tr><td>Fake job offers asking for money</td><td>Use the checker above. Real employers do not charge you to start.</td></tr>
+<tr><td>Skills do not match the jobs</td><td>A 2-week hands-on training on tools shops need now.</td></tr>
+<tr><td>No contacts or references</td><td>Shop owners become people who can vouch for your work.</td></tr>
+<tr><td>Money pressure at home</td><td>Income starts when your first shop pays, with small one-time jobs in between.</td></tr>
+<tr><td>Rejection stress and low confidence</td><td>Set small daily goals (3 applications, 1 new skill, 1 shop visit). If you feel overwhelmed for weeks, talk to someone you trust or a counsellor.</td></tr>
+<tr><td>Gaps in the resume</td><td>List your operator work as experience, with shop type and tasks.</td></tr>
+</table>
+
+<h2>4. Experience record (print and keep)</h2>
+<p>Ask each shop owner to sign. It is proof of work for future employers.</p>
+<table><tr><th>Shop</th><th>Tasks done</th><th>From – To</th><th>Owner sign and phone</th></tr>
+<tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr><tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr><tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr></table>
+<p class="noprint"><button class="btn" onclick="window.print()">Print this page</button></p>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+// 1. Scam checker
+const FLAGS=[
+[/registration fee|security deposit|refundable|pay (rs|₹|inr)|processing fee|training fee|send (money|rs)|advance/i,'Asks you to pay money to get the job'],
+[/otp|aadhaar|aadhar|pan card|bank (details|password)|card number|cvv/i,'Asks for OTP or sensitive IDs before any hiring'],
+[/no interview|without interview|direct (joining|selection)|selected without/i,'Says you are hired with no interview'],
+[/(earn|income)[^.]{0,30}(per day|daily|per hour)|rs\.?\s?\d{3,5}\s*(per|\/)\s*(day|hour)/i,'Promises high daily or hourly pay for simple work'],
+[/guarantee|100%|assured|risk[- ]free/i,'Guarantees results or income'],
+[/telegram|whatsapp only|only on whatsapp|dm us/i,'Hiring only through chat apps'],
+[/like (and|&) (share|subscribe)|rate (products|hotels)|review (hotels|products)|data entry.{0,20}home|typing job/i,'Typical task-scam work (likes, ratings, easy typing)'],
+[/limited (seats|slots|vacancies)|urgent(ly)?|hurry|today only|last date today/i,'Pressure to act in a hurry'],
+[/@(gmail|yahoo|outlook|hotmail)\.com/i,'Company contact uses a free email address']];
+$('chk').onclick=()=>{const t=$('offer').value,o=$('chkOut');o.textContent='';
+if(t.trim().length<15){o.textContent='Paste the full message first.';return}
+const hit=FLAGS.filter(f=>f[0].test(t)).map(f=>f[1]);
+const h=document.createElement('p');
+if(!hit.length){h.className='good';h.textContent='No common red flags found. Still verify the company on its official website and never pay to start work.';o.appendChild(h);return}
+h.className='bad';h.textContent=hit.length+' red flag'+(hit.length>1?'s':'')+' found'+(hit.length>=2?': this looks risky.':'.');o.appendChild(h);
+const ul=document.createElement('ul');hit.forEach(x=>{const li=document.createElement('li');li.textContent=x;ul.appendChild(li)});o.appendChild(ul);
+const p=document.createElement('p');p.textContent='Do not pay or share OTP or ID numbers. Search the company name with the word "scam", and report fraud at cybercrime.gov.in or call 1930 if you lost money.';o.appendChild(p)};
+// 2. Skill matcher
+const SK={'Smartphone and WhatsApp':'WhatsApp Business setup, catalogue, quick replies','Typing Malayalam':'Customer replies in Malayalam, post captions','English writing':'English replies, Google review replies','Photography':'Product and fabric photos, new arrivals catalogue','Canva or design':'Offer posters, festival packs, price boards','Video or reels':'Short reels for new stock and offers','Excel or Sheets':'Stock sheet, fabric metres, billing records','Accounts or billing':'Invoices, pending payment reminders, tailor order tracker','Talking to people':'Winning new shops, customer follow-up calls'};
+Object.keys(SK).forEach(k=>{const l=document.createElement('label'),i=document.createElement('input');i.type='checkbox';i.value=k;i.onchange=match;l.appendChild(i);l.appendChild(document.createTextNode(k));$('skills').appendChild(l)});
+function match(){const m=$('match');m.textContent='';const on=[...document.querySelectorAll('#skills input:checked')].map(i=>i.value);
+if(!on.length)return;const ul=document.createElement('ul');on.forEach(k=>{const li=document.createElement('li');li.textContent=k+': '+SK[k];ul.appendChild(li)});m.appendChild(ul);
+const p=document.createElement('p');p.textContent='Missing skills can be learned in the 2-week training. Start with one task and one shop.';m.appendChild(p)}
+// 3. Tracker (localStorage, guarded)
+let L=[];const KEY='shopmitra_tracker';
+try{L=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){L=[]}
+const sv=()=>{try{localStorage.setItem(KEY,JSON.stringify(L))}catch(e){}};
+function draw(){const tb=$('tb');tb.textContent='';
+L.forEach((r,i)=>{const tr=document.createElement('tr');
+[r.d,r.c,r.s].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td)});
+const td=document.createElement('td'),b=document.createElement('button');b.className='del';b.textContent='Remove';b.onclick=()=>{L.splice(i,1);sv();draw()};td.appendChild(b);tr.appendChild(td);tb.appendChild(tr)});
+const n=L.length,rep=L.filter(r=>r.s!=='Applied').length,iv=L.filter(r=>r.s==='Interview'||r.s==='Offer').length;
+$('n1').textContent=n;$('n2').textContent=rep;$('n3').textContent=iv;$('n4').textContent=n?Math.round(rep/n*100)+'%':'0%'}
+$('ta').onclick=()=>{const c=$('tc').value.trim().slice(0,100);if(!c)return;L.unshift({d:new Date().toLocaleDateString('en-IN'),c,s:$('ts').value});sv();$('tc').value='';draw()};
+draw();
+</script></body></html>
