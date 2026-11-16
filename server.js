@@ -150,4 +150,8 @@ app.get('/api/admin/pods', auth, (req, res) => {
 });
 
 app.get('/health', (req, res) => res.send('ok'));
+
+// ShopMitra AI chatbot: adds POST /api/chat (needs chat.js next to this file)
+require('./chat')(app);
+
 app.listen(PORT, () => console.log('ShopMitra running on port ' + PORT));
